@@ -3,6 +3,7 @@ import { QuestionsRepository } from '@/domain/forum/application/repositories/que
 import { Question } from '@/domain/forum/enterprise/entities/question'
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../prisma.service'
+import { PrismaQuestionMapper } from '../mappers/prisma-question-mapper'
 
 @Injectable()
 export class PrismaQuestionsRepository implements QuestionsRepository {
@@ -29,7 +30,11 @@ export class PrismaQuestionsRepository implements QuestionsRepository {
       where: { id },
     })
 
-    return question
+    if (!question) {
+      return null
+    }
+
+    return PrismaQuestionMapper.toDomain(question)
   }
 
   findManyRecent(params: PaginationParams): Promise<Question[]> {
