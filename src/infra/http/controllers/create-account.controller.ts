@@ -7,6 +7,7 @@ import {
   ConflictException,
   BadRequestException,
 } from '@nestjs/common/exceptions'
+import { Public } from '@/infra/auth/public'
 
 const createAccountBodySchema = z.object({
   name: z.string(),
@@ -16,6 +17,7 @@ const createAccountBodySchema = z.object({
 
 type CreateAccountBodySchema = z.infer<typeof createAccountBodySchema>
 
+@Public()
 @Controller('/accounts')
 export class CreateAccountController {
   constructor(private registerStudent: RegisterStudentUseCase) {}
